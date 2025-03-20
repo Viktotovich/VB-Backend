@@ -12,3 +12,64 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id        String    @id @default(uuid())
+  name      String
+  email     String    @unique
+  username  String    @unique
+  hash      String
+  salt      String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  role      Role      @default(NORMAL)
+  Post      Post[]
+  Comment   Comment[]
+
+  @@index([email])
+}
+
+model Post {
+  id         String     @id @default(uuid())
+  title      String
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  content    Json
+  files      String? ///path to url
+  author     User       @relation(fields: [userId], references: [id])
+  authorId   String
+  categories Category[]
+  approved   Approval   @default(PENDING)
+  userId     String
+}
+
+model Category {
+  id    String @id @default(uuid())
+  name  String @unique
+  posts Post[]
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  author    User     @relation(fields: [userId], references: [id])
+  authorId  String
+  content   Json
+  userId    String
+}
+
+enum Approval {
+  PENDING
+  REVIEWED
+  PUBLISHED
+  DENIED
+}
+
+enum Role {
+  STUDENT
+  NORMAL
+  EDITOR
+  POSTER
+  ADMIN
+}

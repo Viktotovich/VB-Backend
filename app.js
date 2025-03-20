@@ -16,6 +16,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 //Might need refactoring since we're going to use JWT
+//TODO: JWT, CORS, and CSRF protections (OPTIONAL: express cache)
 app.use(
   expressSession({
     cookie: {
