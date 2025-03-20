@@ -1,0 +1,33 @@
+{
+  "name": "vb-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "generate": "prisma generate",
+    "generate:quick": "prisma db push",
+    "migrate": "prisma migrate dev",
+    "update:db": "prisma db pull",
+    "view:db": "prisma studio",
+    "format:db": "prisma format",
+    "dev": "node --watch app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@prisma/client": "^6.4.1",
+    "@quixo3/prisma-session-store": "^3.1.13",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "express-session": "^1.18.1",
+    "express-validator": "^7.2.1",
+    "multer": "^1.4.5-lts.1",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0"
+  },
+  "devDependencies": {
+    "prisma": "^6.4.1"
+  }
+}
