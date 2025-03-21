@@ -16,6 +16,10 @@ class Auth {
   async validatePassword(password, hash) {
     return await bcrypt.compare(password, hash);
   }
+
+  async extractJwt() {
+    //
+  }
 }
 
 module.exports = new Auth();
