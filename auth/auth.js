@@ -1,8 +1,5 @@
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
-const db = require("../db");
-const LocalStrategy = require("passport-local");
-const passport = require("passport");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
@@ -17,10 +14,21 @@ class Auth {
     return await bcrypt.compare(password, hash);
   }
 
-  async extractJwt() {
-    //
+  async generateAccessToken(id) {
+    //15 minutes, serializing the id
+    return jwt.sign({ id }, process.env.SECRET, { expiresIn: "15m" });
   }
 }
+
+/*
+    to use
+    token = generateAccessToken({id: req.body.id})
+    res.json(token)
+
+    On the frontend:
+    const token = await res.json()
+    document.cookie = `token=${token}`
+*/
 
 module.exports = new Auth();
 
