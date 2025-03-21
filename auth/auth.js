@@ -1,6 +1,7 @@
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const db = require("../db");
+const LocalStrategy = require("passport-local");
 const passport = require("passport");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;

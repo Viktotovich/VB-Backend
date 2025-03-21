@@ -1,5 +1,6 @@
 const express = require("express");
 require("dotenv").config();
+const passport = require("passport");
 
 // JWT and Cookies with XSS protection for modern browsers
 const cookieParser = require("cookie-parser");
@@ -14,6 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 
 //Important middleware
 app.use(cookieParser());
+app.use(passport.session());
 
 //Might need refactoring since we're going to use JWT
 //TODO: JWT, CORS, and CSRF protections (OPTIONAL: express cache)
