@@ -11,7 +11,6 @@ CREATE TABLE "User" (
     "email" TEXT NOT NULL,
     "username" TEXT NOT NULL,
     "hash" TEXT NOT NULL,
-    "salt" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "role" "Role" NOT NULL DEFAULT 'NORMAL',

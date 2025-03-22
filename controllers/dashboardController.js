@@ -1,7 +1,7 @@
 const db = require("../db");
-const auth = require("../auth/auth");
+const auth = require("../middleware/auth");
 
-module.exports.getAdminPage = (req, res) => {
+module.exports.getDashboard = (req, res) => {
   res.json({ message: "success" });
 };
 
