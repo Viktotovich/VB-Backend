@@ -5,6 +5,5 @@ const {
 } = require("../controllers/dashboardController");
 
 indexRouter.get("/", getDashboard);
-indexRouter.get("/login", postLogin);
 
 module.exports = indexRouter;

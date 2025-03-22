@@ -1,5 +1,6 @@
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
+const passport = require("passport");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
@@ -14,10 +15,33 @@ class Auth {
     return await bcrypt.compare(password, hash);
   }
 
-  async generateAccessToken(id) {
+  generateAccessToken(id) {
     //15 minutes, serializing the id
     return jwt.sign({ id }, process.env.SECRET, { expiresIn: "15m" });
   }
+
+  //I really do not want to mess with the "this" context, "this" prevents nasty bugs
+  //TODO: use this for the login Route
+  authenticate = (req, res, next) => {
+    passport.authenticate("local", { session: false }, (err, user, info) => {
+      if (err || !user) {
+        return res.status(400).json({
+          message: "Something is not right",
+          user: user,
+        });
+      }
+
+      req.login(user, { session: false }, (err) => {
+        if (err) {
+          res.send(err);
+        }
+
+        const id = user.id;
+        const token = this.generateAccessToken(id);
+        return res.json({ id, token });
+      })(req, res);
+    });
+  };
 }
 
 /*
