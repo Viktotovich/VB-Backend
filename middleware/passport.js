@@ -8,6 +8,7 @@ require("dotenv").config();
 //JWT RELATED
 const JwtStrategy = require("passport-jwt").Strategy;
 const ExtractJwt = require("passport-jwt").ExtractJwt;
+const { TokenExpiredError } = jwt;
 
 const verifyCallback = async (username, password, done) => {
   try {
@@ -60,6 +61,10 @@ const jwtstrategy = new JwtStrategy(opts, async function (jwt_payload, done) {
       return done(null, user);
     }
   } catch (err) {
+    if (err instanceof TokenExpiredError) {
+      return done(err, false, { message: "Token Expired" });
+    }
+
     return done(err, false, { message: "Unauthorized" });
   }
 });
