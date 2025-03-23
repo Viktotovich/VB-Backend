@@ -1,11 +1,11 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-const { PUBLIC_KEY, PRIVATE_KEY } = process.env.SECRET;
+const { PUBLIC_KEY, PRIVATE_KEY } = process.env;
 
 //sign JWT
 module.exports.signJWT = (payload, expiresIn) => {
-  return jwt.sign(payload, PRIVATE_KEY, { algorithm: "RS256" }, expiresIn);
+  return jwt.sign(payload, PRIVATE_KEY, { algorithm: "RS256", expiresIn });
 };
 
 //verify JWT

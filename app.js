@@ -12,7 +12,7 @@ const { deserializeUser } = require("./middleware/jwt/deserializeUser");
 
 //Routers
 const dashboardRouter = require("./routes/dashboardRouter");
-const loginRouter = require("./routes/loginRouter");
+const apiRouter = require("./routes/apiRouter");
 
 //TODO: JWT, CORS, and CSRF protections (OPTIONAL: express cache)
 const app = express();
@@ -29,8 +29,7 @@ app.use(
 );
 app.use(deserializeUser);
 
-app.use("/login", loginRouter);
-
+app.use("/api", apiRouter);
 app.use("/dashboard", requireUser, dashboardRouter);
 
 app.listen(process.env.PORT, () => {
