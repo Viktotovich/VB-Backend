@@ -3,7 +3,6 @@ const utils = require("./utils");
 require("dotenv").config();
 
 module.exports.verifyCallback = async (username, password, done) => {
-  console.log("woo");
   try {
     const user = await db.user.findUnique({
       where: {
@@ -20,7 +19,7 @@ module.exports.verifyCallback = async (username, password, done) => {
     const isValid = await utils.validatePassword(password, user.hash);
 
     if (isValid) {
-      return done(null, user);
+      return { user };
     } else {
       return done(null, false, {
         message: "Username or Password is incorrect.",

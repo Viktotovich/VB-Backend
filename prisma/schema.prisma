@@ -14,9 +14,8 @@ datasource db {
 }
 
 model Session {
-  sessionId  String   @id @unique
-  name       String
-  expiryDate DateTime
+  sessionId String @id @unique
+  name      String
 }
 
 model User {

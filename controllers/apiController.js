@@ -17,8 +17,15 @@ module.exports.postLogin = async (req, res, next) => {
   const { username, password } = req.body;
 
   //authenticate the passwords, return user
-  const { user } = await authenticate.verifyCallback(username, password, next);
+  const { error, user } = await authenticate.verifyCallback(
+    username,
+    password,
+    next
+  );
 
+  if (error) {
+    return res.status(401).json({ message: error });
+  }
   //create a session
   const session = await db.session.create({
     data: {
@@ -58,14 +65,17 @@ module.exports.postLogin = async (req, res, next) => {
 module.exports.postRegister = async (req, res, next) => {
   try {
     const { firstName, lastName, email, username, password } = req.body;
+    console.dir(req.body, null);
     const name = firstName + " " + lastName;
 
     const { hash } = await auth.genPassword(password);
     await db.user.create({
-      name,
-      email,
-      username,
-      hash,
+      data: {
+        name,
+        email,
+        username,
+        hash,
+      },
     });
 
     res.json({ message: "User successfuly registered!" });
