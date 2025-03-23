@@ -1,5 +1,6 @@
 const { signJWT } = require("../middleware/jwt/jwt.utils");
 const auth = require("../middleware/utils");
+require("dotenv").config();
 
 const authenticate = require("../middleware/authenticate");
 const db = require("../db");
@@ -35,7 +36,7 @@ module.exports.postLogin = async (req, res, next) => {
   res.cookie("accessToken", token, {
     maxAge: 900000,
     httpOnly: true,
-    secure: true,
+    secure: process.env.ISPROD,
     sameSite: "none",
   });
 
@@ -45,7 +46,7 @@ module.exports.postLogin = async (req, res, next) => {
   res.cookie("refreshToken", refreshToken, {
     maxAge: 172800000, //2 days
     httpOnly: true,
-    secure: true,
+    secure: process.env.ISPROD,
     sameSite: "none",
   });
 
