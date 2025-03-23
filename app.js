@@ -29,6 +29,7 @@ app.use(
 );
 app.use(deserializeUser);
 
+app.get("/", (req, res) => res.json({ message: "Nothing here" }));
 app.use("/api", apiRouter);
 app.use("/dashboard", requireUser, dashboardRouter);
 
