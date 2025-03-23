@@ -17,14 +17,14 @@ module.exports.postLogin = async (req, res, next) => {
   const { username, password } = req.body;
 
   //authenticate the passwords, return user
-  const { error, user } = await authenticate.verifyCallback(
+  const { error, user, message } = await authenticate.verifyCallback(
     username,
     password,
     next
   );
 
-  if (error) {
-    return res.status(401).json({ message: error });
+  if (user === false || error !== null) {
+    return res.status(401).json({ message: message, error: error });
   }
   //create a session
   const session = await db.session.create({

@@ -11,19 +11,23 @@ module.exports.verifyCallback = async (username, password, done) => {
     });
 
     if (!user) {
-      return done(null, false, {
+      return {
+        error: null,
+        user: false,
         message: "Username or Password is incorrect.",
-      });
+      };
     }
 
     const isValid = await utils.validatePassword(password, user.hash);
 
     if (isValid) {
-      return { user };
+      return { error: null, user: user, message: "Success" };
     } else {
-      return done(null, false, {
-        message: "Username or Password is incorrect.",
-      });
+      return {
+        error: null,
+        user: false,
+        message: "Username or password is incorrect.",
+      };
     }
   } catch (err) {
     return done(err);
