@@ -12,7 +12,9 @@ const { validationResult } = require("express-validator");
 module.exports.postLogin = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(400).json({ message: "failed", error: errors.array() });
+    return res
+      .status(400)
+      .json({ message: "Log-in Failed", error: errors.array() });
   }
   const { username, password } = req.body;
 
@@ -31,7 +33,7 @@ module.exports.postLogin = async (req, res, next) => {
     data: {
       sessionId: crypto.randomUUID(),
       name: user.name,
-      userId: user.userId,
+      userId: user.id,
     },
   });
 

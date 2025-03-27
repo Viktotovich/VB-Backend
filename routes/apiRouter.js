@@ -12,7 +12,7 @@ const { validateSignUp, validateSignIn } = require("../validators/validators");
 apiRouter.delete("/", requireUser, deleteSessionHandler);
 apiRouter.get("/", requireUser, getSessionHandler);
 
-apiRouter.post("/", loginLimiter, validateSignIn, postLogin);
+apiRouter.post("/", /*loginLimiter,*/ validateSignIn, postLogin);
 apiRouter.post("/register", validateSignUp, postRegister);
 
 module.exports = apiRouter;
