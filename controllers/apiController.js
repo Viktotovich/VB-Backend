@@ -31,6 +31,7 @@ module.exports.postLogin = async (req, res, next) => {
     data: {
       sessionId: crypto.randomUUID(),
       name: user.name,
+      userId: userId,
     },
   });
 
@@ -57,7 +58,7 @@ module.exports.postLogin = async (req, res, next) => {
     sameSite: "none",
   });
 
-  res.send(session);
+  res.json({ message: "Success" });
 };
 
 //TODO: Validate the input
