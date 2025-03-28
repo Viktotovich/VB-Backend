@@ -36,3 +36,8 @@
    3. The blogs themselves are freely displayed on the non-admin frontend as long
       as they are set to published: _however_: We need CORS here, specifying
       only the non-admin frontend as the allowed consumer of the API/resource.
+
+#### Important Considerations to act on in prod - VOVASU update
+
+1. In apiController's res.cookie responses, set secure to true and sameSite to none
+2. Check if CORS can be refactored / simplified
