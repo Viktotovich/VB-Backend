@@ -46,8 +46,8 @@ module.exports.postLogin = async (req, res, next) => {
   res.cookie("accessToken", token, {
     maxAge: 900000,
     httpOnly: true,
-    secure: process.env.ISPROD,
-    sameSite: "none",
+    secure: false, //change to true: https
+    sameSite: "lax", //change to NONE
   });
 
   //and assign a JWT Refresh Token
@@ -56,8 +56,8 @@ module.exports.postLogin = async (req, res, next) => {
   res.cookie("refreshToken", refreshToken, {
     maxAge: 172800000, //2 days
     httpOnly: true,
-    secure: process.env.ISPROD,
-    sameSite: "none",
+    secure: false, //change to true: https in prod
+    sameSite: "lax", //change to NONE
   });
 
   res.json({ message: "Success" });

@@ -1,4 +1,5 @@
 const db = require("../../db");
+const { verifyJWT, signJWT } = require("../jwt/jwt.utils");
 
 module.exports.deserializeUser = async (req, res, next) => {
   const { accessToken, refreshToken } = req.cookies;

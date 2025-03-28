@@ -14,24 +14,41 @@ const { deserializeUser } = require("./middleware/jwt/deserializeUser");
 const dashboardRouter = require("./routes/dashboardRouter");
 const apiRouter = require("./routes/apiRouter");
 
-//TODO: JWT, CORS, and CSRF protections (OPTIONAL: express cache)
+//TODO: CSRF TOKENS as we are storing JWT in cookies
+//TODO: Basic Express cache
 const app = express();
+
+//Escape dots - no example.net.hacker.com
+//Escape resource paths example.net/api => example.net
+//Prevent subdomain hijacking
+const allowedOriginPattern = new RegExp(
+  `^${process.env.AUDIENCE.replace(/\./g, "\\.").replace(/\/$/, "")}(/.*)?$`
+);
 
 //middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieparser());
+
+//might be over-engineered, try to do it with just the normal domain
 app.use(
   cors({
     credentials: true,
-    origin: process.env.AUDIENCE,
+    origin: (origin, callback) => {
+      if (!origin || allowedOriginPattern.test(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    //https://expressjs.com/en/resources/middleware/cors.html
   })
 );
-app.use(deserializeUser);
 
 app.get("/", (req, res) => res.json({ message: "Nothing here" }));
 app.use("/api", apiRouter);
-app.use("/dashboard", requireUser, dashboardRouter);
+app.use("/dashboard", deserializeUser, requireUser, dashboardRouter);
 
 app.listen(process.env.PORT, () => {
   console.log("Hey Ya");
