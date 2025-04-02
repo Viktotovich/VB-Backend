@@ -47,10 +47,13 @@ app.use(
   })
 );
 
+//https://www.youtube.com/watch?v=XYjOteYbCMo
+app.use(deserializeUser);
+
 app.get("/", (req, res) => res.json({ message: "Server operational" }));
 app.use("/api", apiRouter);
-app.use("/dashboard", deserializeUser, requireUser, dashboardRouter);
-app.use("/upload", deserializeUser, requireUser, uploadRouter);
+app.use("/dashboard", requireUser, dashboardRouter);
+app.use("/upload", requireUser, uploadRouter);
 
 app.listen(process.env.PORT, () => {
   console.log("Hey Ya");
