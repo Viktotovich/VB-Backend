@@ -13,6 +13,7 @@ const { deserializeUser } = require("./middleware/jwt/deserializeUser");
 //Routers
 const dashboardRouter = require("./routes/dashboardRouter");
 const apiRouter = require("./routes/apiRouter");
+const uploadRouter = require("./routes/uploadRouter");
 
 //TODO: CSRF TOKENS as we are storing JWT in cookies
 //TODO: Basic Express cache
@@ -46,9 +47,10 @@ app.use(
   })
 );
 
-app.get("/", (req, res) => res.json({ message: "Nothing here" }));
+app.get("/", (req, res) => res.json({ message: "Server operational" }));
 app.use("/api", apiRouter);
 app.use("/dashboard", deserializeUser, requireUser, dashboardRouter);
+app.use("/upload", deserializeUser, requireUser, uploadRouter);
 
 app.listen(process.env.PORT, () => {
   console.log("Hey Ya");
