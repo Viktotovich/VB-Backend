@@ -34,13 +34,15 @@ async function processSubmitFile(req, res) {
 
   try {
     await db.file.create({
-      fileName: originalname,
-      size: size,
-      path: url,
-      publicId: public_id,
-      encoding: encoding,
-      mimetype: mimetype,
-      ownerId: ownerId,
+      data: {
+        name: originalname,
+        size: size,
+        path: url,
+        publicId: public_id,
+        encoding: encoding,
+        mimetype: mimetype,
+        ownerId: ownerId,
+      },
     });
 
     res.json({ message: "success", href: url });
