@@ -25,6 +25,7 @@ model User {
   name      String
   email     String    @unique
   username  String    @unique
+  avatar    String? //url to avatar - maybe add a default avatar as well?
   hash      String
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -32,8 +33,25 @@ model User {
   Post      Post[]
   Comment   Comment[]
   Session   Session[]
+  File      File[]
 
   @@index([email])
+}
+
+model File {
+  id        String   @id @default(uuid())
+  size      BigInt
+  path      String
+  encoding  String
+  mimetype  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ///TODO >> Clean up with Pupeteer or something
+  isTemp    Boolean  @default(true) //Helps with cleanup, if user doesnt go through
+  User      User     @relation(fields: [ownerId], references: [id])
+  ownerId   String
+  Post      Post?    @relation(fields: [postId], references: [id])
+  postId    String?
 }
 
 model Post {
@@ -42,12 +60,12 @@ model Post {
   createdAt  DateTime   @default(now())
   updatedAt  DateTime   @updatedAt
   content    Json
-  files      String? ///path to url
-  author     User       @relation(fields: [userId], references: [id])
   authorId   String
   categories Category[]
   approved   Approval   @default(PENDING)
+  author     User       @relation(fields: [userId], references: [id])
   userId     String
+  files      File[]
 }
 
 model Category {
