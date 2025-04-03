@@ -3,17 +3,22 @@ const { verifyJWT, signJWT } = require("../jwt/jwt.utils");
 
 module.exports.deserializeUser = async (req, res, next) => {
   const { accessToken, refreshToken } = req.cookies;
+  console.log("deserializing user ...");
 
   if (accessToken) {
     try {
       const { payload: user, expired } = verifyJWT(accessToken);
 
       if (user) {
+        console.log("User exists, access token valid, proceeding...");
         req.user = user;
         return next();
       }
 
       if (expired && refreshToken) {
+        console.log(
+          "Unlucko Mulucko, token is expired, checking refresh token"
+        );
         return await handleRefreshToken(refreshToken, req, res, next);
       }
     } catch (error) {
@@ -23,6 +28,7 @@ module.exports.deserializeUser = async (req, res, next) => {
   }
 
   if (refreshToken) {
+    console.log("No access token, checking refresh token...");
     return await handleRefreshToken(refreshToken, req, res, next);
   }
 
@@ -53,6 +59,9 @@ async function handleRefreshToken(refreshToken, req, res, next) {
     });
 
     req.user = { id: session.userId, name: session.name };
+
+    console.log("Legit, unexpired refesh token, re-issuing a new accessToken");
+
     return next();
   } catch (error) {
     console.error("Refresh token verification failed:", error);
@@ -61,6 +70,8 @@ async function handleRefreshToken(refreshToken, req, res, next) {
 }
 
 async function invalidateSession(res, next, sessionId = null) {
+  console.log("Something is wrong, invalidating session..." + sessionId);
+
   if (sessionId) {
     await db.session.deleteMany({ where: { sessionId } });
   }

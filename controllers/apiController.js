@@ -44,7 +44,7 @@ module.exports.postLogin = async (req, res, next) => {
   );
 
   res.cookie("accessToken", token, {
-    maxAge: 900000,
+    maxAge: 9000, //15 mins 900000
     httpOnly: true,
     secure: false, //change to true: https
     sameSite: "lax", //change to NONE
