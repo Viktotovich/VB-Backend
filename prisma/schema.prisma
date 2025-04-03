@@ -61,8 +61,7 @@ model Post {
   title      String
   createdAt  DateTime   @default(now())
   updatedAt  DateTime   @updatedAt
-  content    Json
-  authorId   String
+  content    Json ///Blocks
   categories Category[]
   approved   Approval   @default(PENDING)
   author     User       @relation(fields: [userId], references: [id])
