@@ -40,8 +40,10 @@ model User {
 
 model File {
   id        String   @id @default(uuid())
+  fileName  String
   size      BigInt
   path      String
+  publicId  String ///we need this to delete the file later on
   encoding  String
   mimetype  String
   createdAt DateTime @default(now())
