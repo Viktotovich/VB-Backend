@@ -1,4 +1,22 @@
-# Mini Documentation
+# Mini Documentation - 05/06/2025 WARNING!! 
+Do not use this multer version here without upgrading, multer >= 2.0.1 is
+susceptible to DoS attacks. This was once used pre-production, but it is
+no longer use worthy or maintained. It's also feature in-complete, since
+we migrated to AdonisJS.
+
+The security threat in details:
+https://github.com/Viktotovich/VB-Backend/security/dependabot/2
+
+The reason for making it public is for the JWT setup, which I found pretty 
+lacking in communities. This one to my current knowledge is quite comprehensive,
+and can be used for further learning or easy setups (only for JWT).
+
+Either way, I highly reccomend using either AdonisJS or if you really have to
+use Express, use it with Typescript. Otherwise, there are a lot of different
+libraries like Hono and Adonis that are significantly better (security, setup,
+DX, and speed wise). Whichever one you choose, the JWT setup here in this project 
+is a fantastic way to get a better idea of how it could be implemented. 
+
 
 ## Regarding Auth
 
